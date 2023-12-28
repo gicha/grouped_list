@@ -1,4 +1,5 @@
 import 'dart:collection';
+
 import 'package:flutter/widgets.dart';
 
 import 'src/grouped_list_order.dart';
@@ -47,8 +48,7 @@ class SliverGroupedListView<T, E> extends StatefulWidget {
 
   /// Called to build children for the list with
   /// 0 <= element, index < elements.length
-  final Widget Function(BuildContext context, T element, int index)?
-      indexedItemBuilder;
+  final Widget Function(BuildContext context, T element, int index)? indexedItemBuilder;
 
   /// Whether the order of the list is ascending or descending.
   ///
@@ -89,22 +89,19 @@ class SliverGroupedListView<T, E> extends StatefulWidget {
   State<StatefulWidget> createState() => _SliverGroupedListViewState<T, E>();
 }
 
-class _SliverGroupedListViewState<T, E>
-    extends State<SliverGroupedListView<T, E>> {
+class _SliverGroupedListViewState<T, E> extends State<SliverGroupedListView<T, E>> {
   final LinkedHashMap<String, GlobalKey> _keys = LinkedHashMap();
   List<T> _sortedElements = [];
 
   @override
   Widget build(BuildContext context) {
     _sortedElements = _sortElements();
-    var hiddenIndex = 0;
-    isSeparator(int i) => i.isEven;
-
+    final childCount = widget.footer == null ? _sortedElements.length * 2 : (_sortedElements.length * 2) + 1;
+    final hiddenIndex = widget.order.hiddenIsZero ? 0 : _sortedElements.length * 2 - 1;
+    isSeparator(int i) => widget.order.separatorOnEvenElements ? i.isEven : i.isOdd;
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        childCount: widget.footer == null
-            ? _sortedElements.length * 2
-            : (_sortedElements.length * 2) + 1,
+        childCount: childCount,
         (context, index) {
           var actualIndex = index ~/ 2;
 
@@ -120,7 +117,7 @@ class _SliverGroupedListViewState<T, E>
           }
           if (isSeparator(index)) {
             var curr = widget.groupBy(_sortedElements[actualIndex]);
-            var prev = widget.groupBy(_sortedElements[actualIndex - 1]);
+            var prev = widget.groupBy(_sortedElements[actualIndex + widget.order.nextIndexDiff]);
             if (prev != curr) {
               return _buildGroupSeparator(_sortedElements[actualIndex]);
             }
@@ -139,8 +136,7 @@ class _SliverGroupedListViewState<T, E>
         key: key,
         child: widget.indexedItemBuilder == null
             ? widget.itemBuilder!(context, _sortedElements[actualIndex])
-            : widget.indexedItemBuilder!(
-                context, _sortedElements[actualIndex], actualIndex));
+            : widget.indexedItemBuilder!(context, _sortedElements[actualIndex], actualIndex));
   }
 
   List<T> _sortElements() {
@@ -150,11 +146,9 @@ class _SliverGroupedListViewState<T, E>
         int? compareResult;
         // compare groups
         if (widget.groupComparator != null) {
-          compareResult =
-              widget.groupComparator!(widget.groupBy(e1), widget.groupBy(e2));
+          compareResult = widget.groupComparator!(widget.groupBy(e1), widget.groupBy(e2));
         } else if (widget.groupBy(e1) is Comparable) {
-          compareResult = (widget.groupBy(e1) as Comparable)
-              .compareTo(widget.groupBy(e2) as Comparable);
+          compareResult = (widget.groupBy(e1) as Comparable).compareTo(widget.groupBy(e2) as Comparable);
         }
         // compare elements inside group
         if (compareResult == null || compareResult == 0) {
