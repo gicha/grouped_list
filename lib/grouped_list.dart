@@ -64,13 +64,12 @@ class GroupedListView<T, E> extends StatefulWidget {
 
   /// Called to build the children for the list where the current element
   /// depends of the previous and next elements
-  final Widget Function(BuildContext context, T? previousElement,
-      T currentElement, T? nextElement)? interdependentItemBuilder;
+  final Widget Function(BuildContext context, T? previousElement, T currentElement, T? nextElement)?
+      interdependentItemBuilder;
 
   /// Called to build children for the list with
   /// 0 <= element, index < elements.length
-  final Widget Function(BuildContext context, T element, int index)?
-      indexedItemBuilder;
+  final Widget Function(BuildContext context, T element, int index)? indexedItemBuilder;
 
   /// This widget is displayed if the list is contains no [elements] and thus is
   /// empty.
@@ -80,7 +79,7 @@ class GroupedListView<T, E> extends StatefulWidget {
 
   /// Whether the order of the list is ascending or descending.
   ///
-  /// Defaults to [GroupedListOrder.ASC].
+  /// Defaults to [GroupedListOrder.asc].
   final GroupedListOrder order;
 
   /// Whether the [elements] will be sorted or not. If not it must be done
@@ -225,7 +224,7 @@ class GroupedListView<T, E> extends StatefulWidget {
     this.indexedItemBuilder,
     this.interdependentItemBuilder,
     this.itemComparator,
-    this.order = GroupedListOrder.ASC,
+    this.order = GroupedListOrder.asc,
     this.sort = true,
     this.useStickyGroupSeparators = false,
     this.separator = const SizedBox.shrink(),
@@ -249,9 +248,7 @@ class GroupedListView<T, E> extends StatefulWidget {
     this.semanticChildCount,
     this.itemExtent,
     this.footer,
-  })  : assert(itemBuilder != null ||
-            indexedItemBuilder != null ||
-            interdependentItemBuilder != null),
+  })  : assert(itemBuilder != null || indexedItemBuilder != null || interdependentItemBuilder != null),
         assert(groupSeparatorBuilder != null || groupHeaderBuilder != null);
 
   @override
@@ -326,8 +323,7 @@ class _GroupedListViewState<T, E> extends State<GroupedListView<T, E>> {
       }
       if (isSeparator(index)) {
         var curr = widget.groupBy(_sortedElements[actualIndex]);
-        var prev = widget
-            .groupBy(_sortedElements[actualIndex + (widget.reverse ? 1 : -1)]);
+        var prev = widget.groupBy(_sortedElements[actualIndex + (widget.reverse ? 1 : -1)]);
         if (prev != curr) {
           return _buildGroupSeparator(_sortedElements[actualIndex]);
         }
@@ -354,9 +350,7 @@ class _GroupedListViewState<T, E> extends State<GroupedListView<T, E>> {
           restorationId: widget.restorationId,
           keyboardDismissBehavior: widget.keyboardDismissBehavior,
           semanticChildCount: widget.semanticChildCount,
-          itemCount: widget.footer == null
-              ? _sortedElements.length * 2
-              : (_sortedElements.length * 2) + 1,
+          itemCount: widget.footer == null ? _sortedElements.length * 2 : (_sortedElements.length * 2) + 1,
           addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
           addRepaintBoundaries: widget.addRepaintBoundaries,
           addSemanticIndexes: widget.addSemanticIndexes,
@@ -388,9 +382,7 @@ class _GroupedListViewState<T, E> extends State<GroupedListView<T, E>> {
                     context,
                     index > 0 ? _sortedElements[index - 1] : null,
                     _sortedElements[index],
-                    index + 1 < _sortedElements.length
-                        ? _sortedElements[index + 1]
-                        : null,
+                    index + 1 < _sortedElements.length ? _sortedElements[index + 1] : null,
                   )
                 : widget.itemBuilder!(context, _sortedElements[index]),
       );
@@ -411,8 +403,7 @@ class _GroupedListViewState<T, E> extends State<GroupedListView<T, E>> {
 
     _listBox ??= _key.currentContext?.findRenderObject() as RenderBox?;
     var listPos = _listBox?.localToGlobal(Offset.zero).dy ?? 0;
-    _headerBox ??=
-        _groupHeaderKey?.currentContext?.findRenderObject() as RenderBox?;
+    _headerBox ??= _groupHeaderKey?.currentContext?.findRenderObject() as RenderBox?;
     var headerHeight = _headerBox?.size.height ?? 0;
     var max = double.negativeInfinity;
     var topItemKey = widget.reverse ? '${_sortedElements.length - 1}' : '0';
@@ -459,11 +450,9 @@ class _GroupedListViewState<T, E> extends State<GroupedListView<T, E>> {
         int? compareResult;
         // compare groups
         if (widget.groupComparator != null) {
-          compareResult =
-              widget.groupComparator!(widget.groupBy(e1), widget.groupBy(e2));
+          compareResult = widget.groupComparator!(widget.groupBy(e1), widget.groupBy(e2));
         } else if (widget.groupBy(e1) is Comparable) {
-          compareResult = (widget.groupBy(e1) as Comparable)
-              .compareTo(widget.groupBy(e2) as Comparable);
+          compareResult = (widget.groupBy(e1) as Comparable).compareTo(widget.groupBy(e2) as Comparable);
         }
         // compare elements inside group
         if (compareResult == null || compareResult == 0) {
@@ -475,7 +464,7 @@ class _GroupedListViewState<T, E> extends State<GroupedListView<T, E>> {
         }
         return compareResult!;
       });
-      if (widget.order == GroupedListOrder.DESC) {
+      if (widget.order == GroupedListOrder.desc) {
         elements = elements.reversed.toList();
       }
     }
@@ -501,8 +490,7 @@ class _GroupedListViewState<T, E> extends State<GroupedListView<T, E>> {
 
       return Container(
         key: _groupHeaderKey,
-        color:
-            widget.floatingHeader ? null : widget.stickyHeaderBackgroundColor,
+        color: widget.floatingHeader ? null : widget.stickyHeaderBackgroundColor,
         width: widget.floatingHeader ? null : MediaQuery.of(context).size.width,
         child: _buildFixedGroupHeader(topElement),
       );
@@ -530,7 +518,6 @@ class _GroupedListViewState<T, E> extends State<GroupedListView<T, E>> {
   /// Checks if the list item with the given [key] is currently rendered in the
   /// view frame.
   bool _isListItemRendered(GlobalKey<State<StatefulWidget>> key) {
-    return key.currentContext != null &&
-        key.currentContext!.findRenderObject() != null;
+    return key.currentContext != null && key.currentContext!.findRenderObject() != null;
   }
 }

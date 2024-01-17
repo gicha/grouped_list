@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
       groupBy: (element) => element.index,
       groupComparator: (value1, value2) => value2.compareTo(value1),
       itemComparator: (e1, e2) => e1.name.compareTo(e2.name),
-      order: GroupedListOrder.DESC,
+      order: GroupedListOrder.desc,
       useStickyGroupSeparators: true,
       groupSeparatorBuilder: (int groupValue) => _createGroupHeader(groupValue),
       itemBuilder: (ctx, element) => _createItem(element.name),
@@ -78,8 +78,7 @@ class MyApp extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       child: SizedBox(
         child: ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           leading: const Icon(Icons.account_circle),
           title: Text(name),
           trailing: const Icon(Icons.arrow_forward),

@@ -52,7 +52,7 @@ class SliverGroupedListView<T, E> extends StatefulWidget {
 
   /// Whether the order of the list is ascending or descending.
   ///
-  /// Defaults to ASC.
+  /// Defaults to asc.
   final GroupedListOrder order;
 
   /// Whether the elements will be sorted or not. If not it must be done
@@ -78,7 +78,7 @@ class SliverGroupedListView<T, E> extends StatefulWidget {
     this.itemBuilder,
     this.indexedItemBuilder,
     this.itemComparator,
-    this.order = GroupedListOrder.ASC,
+    this.order = GroupedListOrder.asc,
     this.sort = true,
     this.separator = const SizedBox.shrink(),
     this.footer,
@@ -160,7 +160,7 @@ class _SliverGroupedListViewState<T, E> extends State<SliverGroupedListView<T, E
         }
         return compareResult!;
       });
-      if (widget.order == GroupedListOrder.DESC) {
+      if (widget.order == GroupedListOrder.desc) {
         elements = elements.reversed.toList();
       }
     }

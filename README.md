@@ -39,7 +39,7 @@ import 'package:grouped_list/grouped_list.dart';
     itemComparator: (item1, item2) => item1['name'].compareTo(item2['name']), // optional
     useStickyGroupSeparators: true, // optional
     floatingHeader: true, // optional
-    order: GroupedListOrder.ASC, // optional
+    order: GroupedListOrder.asc, // optional
     footer: Text("Widget at the bottom of list"), // optional
   ),
 ```
@@ -58,7 +58,7 @@ import 'package:grouped_list/grouped_list.dart';
 |`separator` | A Widget which defines a separator between items inside a group | no | no separator |
 | `groupComparator` | Can be used to define a custom sorting for the groups. Otherwise the natural sorting order is used | no | - |
 | `itemComparator` | Can be used to define a custom sorting for the elements inside each group. Otherwise the natural sorting order is used | no | - |
-| `order` | Change to `GroupedListOrder.DESC` to reverse the group sorting | no | `GroupedListOrder.ASC` |
+| `order` | Change to `GroupedListOrder.desc` to reverse the group sorting | no | `GroupedListOrder.asc` |
 | `footer` | Widget at the bottom of the list | no | - |
 
 **Also the fields from `ListView.builder` can be used.** 
@@ -73,7 +73,7 @@ Note that some options of the `GroupedListView` are currently not available in `
 #### Highlight - Chat Dialog
 
 Easy creation of chat dialogs.
-Just set the option `reverse` to `true` and `order` to `GroupedListOrder.DESC`. A full example can be found in the examples.
+Just set the option `reverse` to `true` and `order` to `GroupedListOrder.desc`. A full example can be found in the examples.
 The list will be scrolled to the end in the initial state and therefore scrolling will be against redeaing direction. 
 
 

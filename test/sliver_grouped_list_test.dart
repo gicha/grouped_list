@@ -23,9 +23,8 @@ void main() {
               SliverGroupedListView(
                 groupBy: (dynamic element) => element['group'],
                 elements: _elements,
-                order: GroupedListOrder.ASC,
-                groupSeparatorBuilder: (dynamic element) =>
-                    SizedBox(height: 50, child: Text('$element')),
+                order: GroupedListOrder.asc,
+                groupSeparatorBuilder: (dynamic element) => SizedBox(height: 50, child: Text('$element')),
                 itemBuilder: (_, dynamic element) => SizedBox(
                   height: 100,
                   child: Text(element['name']),
@@ -38,8 +37,7 @@ void main() {
     );
   }
 
-  testWidgets('finds elemets and group separators',
-      (WidgetTester tester) async {
+  testWidgets('finds elemets and group separators', (WidgetTester tester) async {
     await tester.pumpWidget(buildApp(_elements));
 
     expect(find.text('John'), findsOneWidget);
@@ -59,8 +57,7 @@ void main() {
     await tester.pumpWidget(buildApp([]));
   });
 
-  testWidgets('finds only one group separator per group',
-      (WidgetTester tester) async {
+  testWidgets('finds only one group separator per group', (WidgetTester tester) async {
     await tester.pumpWidget(buildApp(_elements));
     expect(find.text('Team B'), findsOneWidget);
   });
